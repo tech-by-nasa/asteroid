@@ -2,89 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Asteroid Game</title>
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <style>
-        canvas { 
-            background: black; 
-            display: block; 
-            margin: auto; 
-            border: 2px solid white; 
-        }
-    </style>
+    <title>Asteroid Shooter</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1 style="text-align:center; color:white;">Asteroid Game (PyScript)</h1>
-    <canvas id="gameCanvas" width="600" height="600"></canvas>
 
-    <py-script>
-import random
-from js import document, window
+    <h1>🚀 Asteroid Shooter</h1>
+    <p>Score: <span id="score">0</span></p>
 
-canvas = document.getElementById("gameCanvas")
-ctx = canvas.getContext("2d")
+    <canvas id="gameCanvas" width="800" height="500"></canvas>
 
-# Game variables
-ship = {'x': 300, 'y': 300, 'angle': 0, 'size': 20}
-asteroids = [{'x': random.randint(0,600), 'y': random.randint(0,600), 'size': random.randint(15,40)} for _ in range(5)]
-keys = {'left': False, 'right': False, 'up': False}
-
-def draw_ship():
-    ctx.save()
-    ctx.translate(ship['x'], ship['y'])
-    ctx.rotate(ship['angle'])
-    ctx.beginPath()
-    ctx.moveTo(0, -ship['size'])
-    ctx.lineTo(ship['size']/2, ship['size'])
-    ctx.lineTo(-ship['size']/2, ship['size'])
-    ctx.closePath()
-    ctx.strokeStyle = "white"
-    ctx.stroke()
-    ctx.restore()
-
-def draw_asteroids():
-    ctx.strokeStyle = "white"
-    for a in asteroids:
-        ctx.beginPath()
-        ctx.arc(a['x'], a['y'], a['size'], 0, 2*3.14159)
-        ctx.stroke()
-
-def update_ship():
-    if keys['left']:
-        ship['angle'] -= 0.05
-    if keys['right']:
-        ship['angle'] += 0.05
-    if keys['up']:
-        ship['x'] += -5 * window.Math.sin(ship['angle'])
-        ship['y'] += -5 * window.Math.cos(ship['angle'])
-    # Wrap around edges
-    ship['x'] %= 600
-    ship['y'] %= 600
-
-def game_loop(*args):
-    ctx.clearRect(0, 0, 600, 600)
-    update_ship()
-    draw_ship()
-    draw_asteroids()
-    window.requestAnimationFrame(game_loop)
-
-# Key event listeners
-def keydown(evt):
-    if evt.code == "ArrowLeft": keys['left'] = True
-    if evt.code == "ArrowRight": keys['right'] = True
-    if evt.code == "ArrowUp": keys['up'] = True
-
-def keyup(evt):
-    if evt.code == "ArrowLeft": keys['left'] = False
-    if evt.code == "ArrowRight": keys['right'] = False
-    if evt.code == "ArrowUp": keys['up'] = False
-
-document.addEventListener("keydown", keydown)
-document.addEventListener("keyup", keyup)
-
-# Start the game
-game_loop()
-    </py-script>
+    <script src="game.js"></script>
 </body>
 </html>
+
